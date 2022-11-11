@@ -1,0 +1,86 @@
+This is an experiment I ran from beginning to end. 
+
+Here is all of the experiment introduction, data, and code:
+https://docs.google.com/document/d/14Ar2lUD5L-apvHA9v9pBSxpszzqVZEr6A1gNUp9se_E/edit
+
+Here is where we recorded the information:
+https://docs.google.com/spreadsheets/d/1M5cUxVQYcB94XtXp11zeRUYoEfkLWtMO9aL0KqzVqqU/edit#gid=0
+
+Here is the R-code:
+#Randomization of treatment assignment, rat placement in cages, etc
+sample(1:6,6)
+
+#Loading the necessary libraries
+library(tidyverse)
+library(car)
+library(DescTools)
+
+elevatedplus <- read_table("
+rat light food open
+A1	Dim	Yes	131
+A2	Dim	Yes	150
+A3	Dim	Yes	141
+B1	Red	Yes	101
+B2	Red	Yes	59
+B3	Red	Yes	99
+C1	Bright	Yes	153
+C2	Bright	Yes	155
+C3	Bright	Yes	134
+D1	Dim	Yes	86
+D2	Dim	Yes	98
+D3	Dim	Yes	69
+E1	Red	Yes	91
+E2	Red	Yes	88
+E3	Red	Yes	100
+F1	Bright	Yes	86
+F2	Bright	Yes	122	
+F3	Bright	Yes	92
+A1	Dim	No	119
+A2	Dim	No	82
+A3	Dim	No	155
+B1	Red	No	98
+B2	Red	No	162
+B3	Red	No	93
+C1	Bright	No	131
+C2	Bright	No	123
+C3	Bright	No	71
+D1	Dim	No	140
+D2	Dim	No	146
+D3	Dim	No	132
+E1	Red	No	86
+E2	Red	No	82
+E3	Red	No	147
+F1	Bright	No	137
+F2	Bright	No	139
+F3	Bright	No	155
+")
+
+
+#Running the ANOVA for SP/RM[1;1]
+elevatedplus.aov <- aov(open ~ light + Error(rat) + food + 
+                          light:food, data = elevatedplus)
+summary(elevatedplus.aov)
+
+#Interaction plot
+interaction.plot(elevatedplus$light, elevatedplus$food, elevatedplus$open)
+
+#Check for ANOVA assumptions:
+epm.lm <- lm(open ~ light + rat + food + light:food, data=elevatedplus)
+anova(epm.lm)
+
+#Histogram of residuals
+ggplot(data=elevatedplus, mapping=aes(x=epm.lm$residuals)) +
+  geom_histogram(binwidth=5)
+hist(epm.lm$residuals)
+
+#Boxplot of errors
+boxplot(epm.lm$residuals)
+
+#Pairwise comparisons for the light factors
+epm.aov <- aov(open ~ light + rat + food + light:food, data=elevatedplus)
+anova(epm.aov)
+TukeyHSD(epm.aov)
+
+#Alternative tests, but Tukey gives us the most accurate results
+PostHocTest(epm.aov, method="bonferroni")
+PostHocTest(epm.aov, method="lsd")
