@@ -1,7 +1,6 @@
 - Hi, I’m @tylerduke11 (Tyler Duke)
-- I’m interested in Data Analytics, Statistics, etc.
-- I’m currently learning SQL, R, Excel
-- I’m looking to collaborate on ...
+- I will graduate with a BS in Statistics from Brigham Young University in April 2025
+- I’m currently practicing SQL, R, Excel
 - How to reach me: tylerduke111@gmail.com
 
 <!---
