@@ -1,6 +1,6 @@
 - Hi, I’m @tylerduke11 (Tyler Duke)
-- I will graduate with a BS in Statistics from Brigham Young University in April 2025
-- I’m currently practicing SQL, R, Excel
+- I will graduate with a BS and MS in Statistics from Brigham Young University in April 2026
+- I’m currently practicing R, Python, SQL, and Excel
 - How to reach me: tylerduke111@gmail.com
 
 <!---
